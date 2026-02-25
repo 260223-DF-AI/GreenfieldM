@@ -271,7 +271,6 @@ def display_statistics(contacts):
         print(f"Most Recent: {most_recent['name']} (added {most_recent['created_at']})")
     else:
         print("Most recent: None")
-
     #printing end
     print("-" * 31)
     pass
@@ -301,106 +300,73 @@ def main():
     while True:
         display_menu()
         choice = input("Enter choice: ").strip()
-
-        # Exit
-        if choice == "0":
+        if choice == "0": #exit
             print("Goodbye!")
             break
-
-        # View all contacts
-        elif choice == "1":
+        elif choice == "1": #view all contacts
             if contacts:
                 display_all_contacts(contacts)
             else:
                 print("No contacts found.")
-
-        # Add new contact
-        elif choice == "2":
+        elif choice == "2": #add new contact
             name = input("Enter name: ")
             phone = input("Enter phone: ")
             email = input("Enter email: ")
             category = input("Enter category (friend/family/work/other): ")
-
             new_contact = add_contact(
                 contacts, name, phone, email, category
             )
-
             print(f"Contact added: {new_contact['name']}")
-
-        # Search contacts
-        elif choice == "3":
+        elif choice == "3": #search contacts
             print("\nSearch Options:")
             print("1. By Name")
             print("2. By Category")
             print("3. By Phone")
-
             search_choice = input("Choose search type: ")
-
-            # Search by name
-            if search_choice == "1":
+            if search_choice == "1": #search by name
                 query = input("Enter name to search: ")
                 results = search_by_name(contacts, query)
-
                 if results:
                     for c in results:
                         display_contact_details(c)
                 else:
                     print("No matches found.")
-
-            # Filter by category
-            elif search_choice == "2":
+            elif search_choice == "2": #filter by category
                 category = input("Enter category: ")
                 results = filter_by_category(contacts, category)
-
                 if results:
                     for c in results:
                         display_contact_details(c)
                 else:
                     print("No matches found.")
-
-            # Find by phone
-            elif search_choice == "3":
+            elif search_choice == "3": #find by phone
                 phone = input("Enter phone: ")
                 result = find_by_phone(contacts, phone)
-
                 if result:
                     display_contact_details(result)
                 else:
                     print("Contact not found.")
-
             else:
                 print("Invalid search option.")
-
-        # Update contact
-        elif choice == "4":
+        elif choice == "4": #update contact
             phone = input("Enter phone of contact to update: ")
             field = input("Field to update (name/phone/email/category): ")
             new_value = input("Enter new value: ")
-
             success = update_contact(contacts, phone, field, new_value)
-
             if success:
                 print("Contact updated successfully.")
             else:
                 print("Contact not found or invalid field.")
-
-        # Delete contact
-        elif choice == "5":
+        elif choice == "5": #delete contact
             phone = input("Enter phone of contact to delete: ")
-
             success = delete_contact(contacts, phone)
-
             if success:
                 print("Contact deleted.")
             else:
                 print("Contact not found.")
-
-        # View statistics
-        elif choice == "6":
+        elif choice == "6": #view statistics
             display_statistics(contacts)
-
-        # Invalid option
-        else:
+        else: #invalid option
             print("Invalid choice. Please try again.")
     pass
 
