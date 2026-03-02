@@ -249,18 +249,21 @@ class Shelter:
     def find_by_name(self, name):
         """Find an animal by name."""
         # TODO: Loop through animals and return one with matching name
+        for animal in self.animals:
+            if animal.name == name:
+                return animal
         # TODO: Return None if not found
-        pass
+        return None
     
     def list_available(self):
         """List all animals available for adoption."""
         # TODO: Return list of animals where is_adopted() is False
-        pass
+        return [animal for animal in self.animals if not animal.is_adopted()]
     
     def list_by_species(self, species):
         """List all animals of a specific species."""
         # TODO: Filter self.animals by species
-        pass
+        return [animal for animal in self.animals if animal.species == species ]
     
     def adopt_animal(self, name):
         """Adopt an animal by name."""
@@ -315,10 +318,19 @@ def main():
     
     # Add various animals (using completed classes)
     shelter.add_animal(Dog("Buddy", 3, "Golden Retriever", True))
+
     # TODO: Add a Cat
+    shelter.add_animal(Cat("Whiskers", 2, "Tabby", True))
+
     # TODO: Add a Puppy
+    shelter.add_animal(Puppy("Max", 6, "Beagle"))
+
     # TODO: Add a ServiceDog
+    shelter.add_animal(ServiceDog("Rex", 4, "German Shepherd", "guide"))
+
     # TODO: Add a Kitten
+    shelter.add_animal(Kitten("Luna", 4, "Calico"))
+
     
     # Display all animals
     shelter.display_all()
