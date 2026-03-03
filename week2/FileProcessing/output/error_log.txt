@@ -1,0 +1,2 @@
+=== Error Log ===
+Unexpected error: dict contains fields not in fieldnames: 'total', 'store_id'

@@ -1,0 +1,16 @@
+=== Sales Processing Report ===
+Generated: 2026-03-03 15:56:23
+
+Processing Statistics:
+-Total Records: 1
+-Valid Records: 0
+-Error Records: 1
+
+Errors:
+- Unexpected error: dict contains fields not in fieldnames: 'total', 'store_id'
+
+Sales by Store:
+- None
+
+Top Products:
+- None
