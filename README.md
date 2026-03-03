@@ -7,3 +7,6 @@ Week one contents:
 
 Week two contents:
 -Python logging
+-types of exceptions
+-exception handling
+-file handling
