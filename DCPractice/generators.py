@@ -1,3 +1,5 @@
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 def read_lines(filepath, encoding='utf-8'):
     """
     Yield lines from a file one at a time.
@@ -66,3 +68,22 @@ def filter_by_field(records, field, value):
         if isinstance(record, dict) and record.get(field) == value:
             yield record
 
+def process_files_parallel(filepaths, processor, max_workers=4):
+    """
+    Process multiple files in parallel and yield results as each finishes.
+    """
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_map = {
+            executor.submit(processor, filepath): filepath
+            for filepath in filepaths
+        }
+
+        for future in as_completed(future_map):
+            filepath = future_map[future]
+            try:
+                yield future.result()
+            except Exception as exc:
+                yield {
+                    "file": filepath,
+                    "error": str(exc)
+                }

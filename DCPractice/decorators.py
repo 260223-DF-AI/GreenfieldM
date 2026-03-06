@@ -1,6 +1,9 @@
 from functools import wraps
 import time
 from collections import OrderedDict, namedtuple
+import asyncio
+import inspect
+from typing import get_type_hints 
 
 def timer(func):
     """
@@ -142,4 +145,102 @@ def cache(max_size=128):
         wrapper._cache = store
         return wrapper
     return decorator
+
+def async_retry(max_attempts=3, delay=1, exceptions=(Exception,)):
+    """
+    Retry decorator for async functions.
+
+    Usage:
+        @async_retry(max_attempts=3, delay=0.5)
+        async def fetch_data():
+            ...
+    """
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            last_error = None
+
+            for attempt in range(1, max_attempts + 1):
+                try:
+                    return await func(*args, **kwargs)
+                except exceptions as exc:
+                    last_error = exc
+                    if attempt == max_attempts:
+                        raise
+                    await asyncio.sleep(delay)
+
+            raise last_error
+        return wrapper
+    return decorator
+
+def rate_limit(max_calls, period=60):
+    """
+    Limit how many times a function can be called in a time window.
+
+    Args:
+        max_calls: max number of calls allowed
+        period: time window in seconds
+
+    Usage:
+        @rate_limit(max_calls=5, period=60)
+        def send_request():
+            ...
+    """
+    call_times = []
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            nonlocal call_times
+            now = time.time()
+
+            # Keep only calls still inside the time window
+            call_times = [t for t in call_times if now - t < period]
+
+            if len(call_times) >= max_calls:
+                raise RuntimeError(
+                    f"Rate limit exceeded: max {max_calls} calls every {period} seconds"
+                )
+
+            call_times.append(now)
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+def validate_args(func):
+    """
+    Validate arguments using function type hints.
+
+    Usage:
+        @validate_args
+        def add(a: int, b: int) -> int:
+            return a + b
+    """
+    signature = inspect.signature(func)
+    hints = get_type_hints(func)
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        bound = signature.bind(*args, **kwargs)
+        bound.apply_defaults()
+
+        for name, value in bound.arguments.items():
+            expected_type = hints.get(name)
+
+            if expected_type is not None and not isinstance(value, expected_type):
+                raise TypeError(
+                    f"Argument '{name}' must be {expected_type.__name__}, "
+                    f"got {type(value).__name__}"
+                )
+
+        result = func(*args, **kwargs)
+
+        return_type = hints.get("return")
+        if return_type is not None and not isinstance(result, return_type):
+            raise TypeError(
+                f"Return value must be {return_type.__name__}, "
+                f"got {type(result).__name__}"
+            )
+        return result
+    return wrapper
+
         

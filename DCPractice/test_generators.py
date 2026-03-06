@@ -1,5 +1,5 @@
 import pytest
-from generators import read_lines, batch, filter_by
+from generators import read_lines, batch, filter_by, process_files_parallel
 
 def test_batch_correct_sizes():
     """Batch should yield correct batch sizes."""
@@ -24,3 +24,18 @@ def test_read_lines_skips_empty(tmp_path):
 def test_batch_raises_for_invalid_size():
     with pytest.raises(ValueError):
         list(batch([1, 2, 3], 0))
+
+def test_process_files_parallel(tmp_path):
+    file1 = tmp_path / "a.txt"
+    file2 = tmp_path / "b.txt"
+
+    file1.write_text("one\ntwo\n", encoding="utf-8")
+    file2.write_text("three\n", encoding="utf-8")
+
+    def count_lines(path):
+        with open(path, "r", encoding="utf-8") as f:
+            return sum(1 for _ in f)
+
+    results = list(process_files_parallel([str(file1), str(file2)], count_lines, max_workers=2))
+
+    assert sorted(results) == [1, 2]
