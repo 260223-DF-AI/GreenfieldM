@@ -12,3 +12,6 @@ Week two contents:
 -file handling/processing
 -pytest
 -virutal environments
+
+Week three contents:
+-SQL fundamentals

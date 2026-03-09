@@ -1,0 +1,72 @@
+erDiagram
+
+    CUSTOMERS {
+        int customer_id PK
+        string first_name
+        string last_name
+        string email
+        string phone
+        string address
+    }
+
+    PUBLISHERS {
+        int publisher_id PK
+        string name
+        string contact_email
+        string contact_phone
+    }
+
+    AUTHORS {
+        int author_id PK
+        string first_name
+        string last_name
+        string bio
+    }
+
+    BOOKS {
+        int book_id PK
+        string title
+        string isbn
+        decimal price
+        date publication_date
+        int page_count
+        int publisher_id FK
+    }
+
+    ORDERS {
+        int order_id PK
+        int customer_id FK
+        date order_date
+        string status
+    }
+
+    ORDER_ITEMS {
+        int order_item_id PK
+        int order_id FK
+        int book_id FK
+        int quantity
+        decimal unit_price
+    }
+
+    REVIEWS {
+        int review_id PK
+        int customer_id FK
+        int book_id FK
+        int rating
+        string review_text
+        date review_date
+    }
+
+    BOOK_AUTHORS {
+        int book_id PK, FK
+        int author_id PK, FK
+    }
+
+    PUBLISHERS ||--o{ BOOKS : publishes
+    CUSTOMERS ||--o{ ORDERS : places
+    ORDERS ||--o{ ORDER_ITEMS : contains
+    BOOKS ||--o{ ORDER_ITEMS : included_in
+    BOOKS ||--o{ REVIEWS : receives
+    CUSTOMERS ||--o{ REVIEWS : writes
+    BOOKS ||--o{ BOOK_AUTHORS : has
+    AUTHORS ||--o{ BOOK_AUTHORS : writes
