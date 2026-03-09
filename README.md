@@ -9,4 +9,6 @@ Week two contents:
 -Python logging
 -types of exceptions
 -exception handling
--file handling
+-file handling/processing
+-pytest
+-virutal environments
