@@ -7,7 +7,7 @@
 ### Natural Key
 - 'full_date'
 ### Key Attributes
-- full_name
+- full_date
 - day_of_week
 - day_name
 - day_of_month
