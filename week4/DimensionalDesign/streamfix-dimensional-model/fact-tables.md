@@ -3,6 +3,7 @@
 ## User Viewing Behavior
 ### What content is being watched, when, and for how long
 **Table type**: Transaction
+
 **Grain statement**: Each row represents a viewing session by a user for a specific content title on a specific device at a particular date and time.
 
 | session_id (PK) | user_id (FK) | content_id (FK) | content_title | content_category | date | duration | device_id (FK) | device_type |
@@ -26,6 +27,7 @@ Measures:
 ## Subscription Analytics 
 ### User acquisition, churn, and revenue analysis
 **Table type**: Periodic Snapshot
+
 **Grain statement**: Each row represents billing transactions per user subscription events.
 
 | billing_id (PK) | user_id (FK) | billing_date | payment_method | plan__type | plan_rate | amount_paid | plan_status | activation_date | cancellation_date | 
@@ -48,6 +50,7 @@ Measures:
 ## Device Analytics
 ### Which devices are used, streaming quality metrics
 **Table type**: Transaction
+
 **Grain statement**: Each row represents the device telemetry for a viewing session by a user 
 
 | device_id (PK) | session_id (FK) | user_id (FK) | device_type | network_type (FK) | region | playback_speed | playback_quality | buffering_time | media_file_size |
