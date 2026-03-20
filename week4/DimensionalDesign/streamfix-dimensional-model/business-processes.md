@@ -54,7 +54,6 @@ Streaming Device and Quality Analytics
 - Which platforms have the highest buffering time?
 - What streaming quality is most common by region?
 - How does network type affect playback quality?
-- Which device types are associated with session abandonment?
 - Which device type is used most often?
 - How many devices per account are used?
 
