@@ -196,6 +196,7 @@
 - billing_cycle
 - plan_tier
 - price_usd
+- discount_value
 - max_streams
 - ad_supported_flag
 - offline_download_flag
@@ -281,35 +282,7 @@ type 1 for postal adjustments.  type 2 for market_region and content_region_grou
 Type 1 for non-historical corrections, Type 2 for funding_type and wallet_provider if tracking changes matters
 
 ----------------------------------------
-
-## 8. DimPromotion
-### Table Name
-- `dim_promotion`
-### Surrogate Key Name
-- `promotion_key`
-### Natural Key
-- `promotion_code`
-### Key Attributes
-- promotion_code
-- promotion_name
-- campaign_name
-- channel_name
-- discount_type
-- discount_value
-- start_date
-- end_date
-- target_segment
-- region_scope
-- active_flag
-### Hierarchies
-- Campaign > Promotion
-- Channel > Campaign > Promotion
-### SCD Type
-Type 2 for campaign and targeting changes, Type 1 for description fixes
-
--------------------------------
-
-## 9. DimNetwork
+## 8. DimNetwork
 
 ### Table Name
 - `dim_network`
