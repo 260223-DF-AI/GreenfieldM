@@ -16,7 +16,6 @@ The model follows dimensional modeling best practices using **star schemas**, **
 
 ## Project Scope
 This design includes 3 core business processes:
-
 1. Viewing Events
 2. Subscription Billing
 3. Device Quality Monitoring
